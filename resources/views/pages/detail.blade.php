@@ -179,7 +179,7 @@
             </div>
             <div class="join-container d-grid gap-2">
               <a
-                href="./checkout.html"
+                href="/checkout"
                 class="btn btn-block btn-join-now mt-3 py-2"
               >
                 Join Now
