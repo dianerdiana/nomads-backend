@@ -58,7 +58,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div
             class="card-travel d-flex flex-column text-center"
-            style="background-image: url('./assets/images/popular-1.jpg')"
+            style="background-image: url('frontend/assets/images/popular-1.jpg')"
           >
             <div class="travel-country">INDONESIA</div>
             <div class="travel-location">DERATAN, BALI</div>
@@ -72,7 +72,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div
             class="card-travel d-flex flex-column text-center"
-            style="background-image: url('./assets/images/popular-2.jpg')"
+            style="background-image: url('frontend/assets/images/popular-2.jpg')"
           >
             <div class="travel-country">INDONESIA</div>
             <div class="travel-location">BROMO, MALANG</div>
@@ -86,7 +86,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div
             class="card-travel d-flex flex-column text-center"
-            style="background-image: url('./assets/images/popular-3.jpg')"
+            style="background-image: url('frontend/assets/images/popular-3.jpg')"
           >
             <div class="travel-country">INDONESIA</div>
             <div class="travel-location">NUSA PENIDA</div>
@@ -100,7 +100,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div
             class="card-travel d-flex flex-column text-center"
-            style="background-image: url('./assets/images/popular-4.jpg')"
+            style="background-image: url('frontend/assets/images/popular-4.jpg')"
           >
             <div class="travel-country">MIDDLE EAST</div>
             <div class="travel-location">DUBAI</div>
@@ -127,7 +127,7 @@
         </div>
         <div class="col-md-8 text-center">
           <img
-            src="./assets/icons/partners.png"
+            src="{{ url("frontend/assets/icons/partners.png") }}"
             alt="Logo Partners"
             class="img-partners"
           />
@@ -160,7 +160,7 @@
           <div class="card card-testimonial text-center">
             <div class="testimonial-content">
               <img
-                src="./assets/images/testimonial-1.png"
+                src="{{ url("frontend/assets/images/testimonial-1.png") }}"
                 alt="user"
                 class="mb-4 rounded-circle"
               />
@@ -178,7 +178,7 @@
           <div class="card card-testimonial text-center">
             <div class="testimonial-content">
               <img
-                src="./assets/images/testimonial-2.png"
+                src="{{ url("frontend/assets/images/testimonial-2.png") }}"
                 alt="user"
                 class="mb-4 rounded-circle"
               />
@@ -196,7 +196,7 @@
           <div class="card card-testimonial text-center">
             <div class="testimonial-content">
               <img
-                src="./assets/images/testimonial-3.png"
+                src="{{ url("frontend/assets/images/testimonial-3.png") }}"
                 alt="user"
                 class="mb-4 rounded-circle"
               />

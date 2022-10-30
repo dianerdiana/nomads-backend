@@ -37,7 +37,7 @@ body {
 header {
   padding: 180px 0 165px;
   margin-top: -60px;
-  background-image: url("../assets/images/header.jpg");
+  background-image: url("/frontend/assets/images/header.jpg");
   background-size: cover;
 }
 header h1,

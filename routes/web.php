@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
+
 
 Route::prefix('admin')
     ->namespace('App\Http\Controllers\Admin')
     ->group(function() {
+        // Route::controller(DashboardController::class)
+        // ->group(function() {
+        //     Route::get('/', 'index');
+        // });
         Route::get('/', 'DashboardController@index')
             ->name('dashboard');
     });
