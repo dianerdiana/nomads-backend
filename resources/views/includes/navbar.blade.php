@@ -2,7 +2,7 @@
 
 <div class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-white px-3 py-0">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{{ route("home") }}">
       <img src="{{ url('frontend/assets/icons/logo_nomads.png') }}" alt="navbar-brand" />
     </a>
     <button
