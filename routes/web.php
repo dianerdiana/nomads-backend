@@ -20,6 +20,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         ->name('detail');
     Route::get('/checkout', 'CheckoutController@index')
         ->name('checkout');
+    Route::get('/checkout/success', 'CheckoutController@success')
+        ->name('checkout-success');
 });
 
 
