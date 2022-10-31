@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('travel_packages', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id_travel_package');
             $table->string('title');
             $table->string('slug');
             $table->string('location');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('featured_event');
             $table->string('language');
             $table->string('foods');
-            $table->date('date_departure');
+            $table->date('departure_date');
             $table->string('duration');
             $table->string('type');
             $table->integer('price');
