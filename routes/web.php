@@ -25,7 +25,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
 });
 
 
-Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin'], function() {
+Route::group([
+    'prefix' => 'admin', 
+    'namespace' => 'App\Http\Controllers\Admin', 
+    'middleware' => ['auth', 'admin'],
+    ], function() {
     // Route::controller(DashboardController::class)
     // ->group(function() {
     //     Route::get('/', 'index')->name('dashboard');
@@ -34,3 +38,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin'],
     Route::get('/', 'DashboardController@index')->name('dashboard')
         ->name('dashboard');
 });
+Auth::routes();
