@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TravelPackageRequest;
+use App\Http\Requests\Admin\TravelPackageRequest;
 use App\Models\TravelPackage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -56,7 +56,7 @@ class TravelPackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_travel_package)
     {
         //
     }
@@ -67,9 +67,11 @@ class TravelPackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_travel_package)
     {
-        //
+        $item = TravelPackage::findOrFail($id_travel_package);
+
+        return view('pages.admin.travel-package.update', ['item'=>$item]);
     }
 
     /**
@@ -79,9 +81,16 @@ class TravelPackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TravelPackageRequest $request, $id_travel_package)
     {
-        //
+        $data = $request->all();
+
+        $data['slug'] = Str::slug($request->title);
+
+        $item = TravelPackage::findOrFail($id_travel_package);
+
+        $item->update($data);
+        return redirect()->route('travel-package.index');
     }
 
     /**
