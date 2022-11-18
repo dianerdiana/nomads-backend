@@ -12,6 +12,7 @@ class Gallery extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $primaryKey = 'id_gallery';
     protected $fillable = [
         'travel_package_id', 'image', 
     ];
