@@ -40,7 +40,7 @@ class TravelPackageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TravelPackage $request)
+    public function store(TravelPackageRequest $request)
     {
         $data = $request->all();
 
@@ -99,8 +99,11 @@ class TravelPackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_travel_package)
     {
-        //
+        $item = TravelPackage::findOrFail($id_travel_package);
+
+        $item->delete();
+        return redirect()->route('travel-package.index');
     }
 }

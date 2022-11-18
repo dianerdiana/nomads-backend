@@ -37,7 +37,7 @@
                   <td>{{ $item->departure_date }}</td>
                   <td>{{ $item->type }}</td>
                   <td>
-                    <a href="{{ route('travel-package.edit', $item->id_travel_package) }}" class="btn btn-info">
+                    <a href="{{ route('travel-package.edit', $item->id_travel_package) }}" class="btn btn-sm btn-info">
                       <i class="fa fa-pencil-alt"></i>
                     </a>
 
@@ -45,7 +45,7 @@
                       class="d-inline">
                       @csrf
                       @method('delete')
-                      <button class="btn btn-danger">
+                      <button class="btn btn-sm btn-danger">
                         <i class="fa fa-trash"></i>
                       </button>
                     </form>
