@@ -23,8 +23,8 @@ class Transaction extends Model
 
     ];
 
-    public function detail() {
-        return $this->hasMany(TransactionDetail::class, 'transaction_id', 'id_transaction_detail');
+    public function details() {
+        return $this->hasMany(TransactionDetail::class, 'transaction_id', 'id_transaction');
     }
 
     public function travel_package() {
