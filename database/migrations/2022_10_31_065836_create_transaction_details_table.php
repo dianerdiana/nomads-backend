@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('transaction_id');
             $table->string('username');
             $table->string('nationality');
-            $table->boolean('is_visa');
+            $table->integer('is_visa');
             $table->date('doe_passport');
             $table->softDeletes();
             $table->timestamps();
