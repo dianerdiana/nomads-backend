@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TravelPackageController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\TransactionController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +22,10 @@ use App\Http\Controllers\Admin\TransactionController;
 */
 
 Route::group(['prefix' => '/'], function() {
-  Route::get('/', [HomeController::class, 'index'])
-    ->name('home');
-  Route::get('detail', [DetailController::class, 'index'])
-    ->name('detail');
+  Route::get('/', [HomeController::class, 'index'])->name('home');
+  Route::get('detail', [DetailController::class, 'index'])->name('detail');
   
-  Route::controller(CheckoutController::class)
-    ->group(function() {
+  Route::controller(CheckoutController::class)->group(function() {
       Route::get('checkout', 'index')->name('checkout');
       Route::get('checkout/success', 'success')->name('checkout-success');
     });
@@ -44,4 +42,5 @@ Route::group([
   Route::resource('gallery', GalleryController::class);
   Route::resource('transaction', TransactionController::class);
 });
+
 Auth::routes(['verify' => true]);

@@ -24,4 +24,15 @@ class TravelPackage extends Model
     public function galleries() {
         return $this->hasMany(Gallery::class, 'travel_package_id', 'id_travel_package');
     }
+
+    public function insertData($data=[]) {
+        TravelPackage::insert($data);
+        $data = TravelPackage::getPdo()->lastInsertId();
+        return $data;
+    }
+
+    public function getData($id=1) {
+        $data = TravelPackage::where($this->primaryKey, $id)->first();
+        return $data;
+    }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('location');
+            $table->string('country')->default('INDONESIA');
             $table->longText('about');
             $table->string('featured_event');
             $table->string('language');
