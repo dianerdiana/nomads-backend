@@ -36,5 +36,7 @@ class GallerySeeder extends Seeder
                 'image'             => 'seeders/popular-4.jpg',
             ]
         ]);
+
+        DB::statement("SELECT setval('galleries_id_gallery_seq', 5)");
     }
 }

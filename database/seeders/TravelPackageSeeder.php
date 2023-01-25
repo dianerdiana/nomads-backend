@@ -84,5 +84,7 @@ Bali and a district of Klungkung Regency that includes the neighbouring small is
 Bali and a district of Klungkung Regency that includes the neighbouring small island of Nusa Lembongan. The Badung Strait separates the island and Bali."
             ],
         ]);
+
+        DB::statement("SELECT setval('travel_packages_id_travel_package_seq', 5)");
     }
 }

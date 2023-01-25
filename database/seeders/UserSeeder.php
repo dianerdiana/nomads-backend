@@ -24,5 +24,7 @@ class UserSeeder extends Seeder
                 'roles'     => 'ADMIN',
             ]
         ]);
+
+        DB::statement("SELECT setval('users_id_user_seq', 2)");
     }
 }
