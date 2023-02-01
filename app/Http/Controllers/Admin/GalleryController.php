@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\GalleryRequest;
 use App\Models\Gallery;
 use App\Models\TravelPackage;
+use Constants;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class GalleryController extends Controller
 {
@@ -16,13 +17,11 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $items = Gallery::with(['travel_package'])->get();
+    public function index() {
+        $table = new Gallery();
+        $items = $table->getAllData('travel_package');
 
-        return view('pages.admin.gallery.index', [
-            'items' => $items
-        ]);
+        return view('pages.admin.gallery.index', ['items' => $items]);
     }
 
     /**
@@ -30,12 +29,11 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        $travel_packages = TravelPackage::all();
-        return view('pages.admin.gallery.create', [
-            'travel_packages'=>$travel_packages
-        ]);
+    public function create() {
+        $table = new TravelPackage();
+        $travel_packages = $table->getAllData();
+
+        return view('pages.admin.gallery.create', ['travel_packages' => $travel_packages]);
     }
 
     /**
@@ -44,13 +42,40 @@ class GalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GalleryRequest $request)
-    {
-        $data = $request->all();
-        $data['image']=$request->file('image')->store('assets/gallery', 'public');
+    public function store(Request $request) {
+        $rules = [
+            'travel_package_id' => 'required|integer|exists:travel_packages,id_travel_package',
+            'image' => 'required|image',
+        ];
 
-        Gallery::create($data);
-        return redirect()->route('gallery.index');
+        
+        $data = $request->all();
+        $data['image'] = $request->file('image')->store('assets/gallery', 'public');
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $message = $validator->messages()->all();
+            return redirect()
+                ->route('gallery.create')
+                ->withErrors($message)
+                ->withInput($request->all());
+        } else {
+            try {
+                DB::beginTransaction();
+                $table = new Gallery();
+                $insertData = $table->insertData($data);
+                $message = empty($insertData) ? Constants::FAILED  : Constants::ADD_SUCCESS;
+                DB::commit();
+            } catch (\Exception $e) {
+                $message = $e;
+            }
+        }
+
+        $res['status']  = isset($insertData) ? false : true;
+        $res['message'] = $message;
+
+        return redirect()->route('gallery.index')->with($res);
     }
 
     /**
@@ -59,8 +84,7 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id_gallery)
-    {
+    public function show($id_gallery) {
         //
     }
 
@@ -70,15 +94,13 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_gallery)
-    {
-        $item = Gallery::findOrFail($id_gallery);
-        $travel_packages = TravelPackage::all();
+    public function edit($id) {
+        $table = new Gallery();
+        $tp_table = new TravelPackage();
+        $item = $table->getData($id);
+        $travel_packages = $tp_table->getAllData();
 
-        return view('pages.admin.gallery.update', [
-            'item'=>$item,
-            'travel_packages'=>$travel_packages
-        ]);
+        return view('pages.admin.gallery.edit', ['item' => $item, 'travel_packages' => $travel_packages ]);
     }
 
     /**
@@ -88,15 +110,40 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(GalleryRequest $request, $id_gallery)
-    {
+    public function update(Request $request, $id) {
+        $rules = [
+            'travel_package_id' => 'required|integer|exists:travel_packages,id_travel_package',
+            'image' => 'required|image',
+        ];
+
+        
         $data = $request->all();
-        $data['image']=$request->file('image')->store('assets/gallery', 'public');
+        $data['image'] = $request->file('image')->store('assets/gallery', 'public');
 
-        $item = Gallery::findOrFail($id_gallery);
+        $validator = Validator::make($request->all(), $rules);
 
-        $item->update($data);
-        return redirect()->route('gallery.index');
+        if ($validator->fails()) {
+            $message = $validator->messages()->all();
+            return redirect()
+                ->route('gallery.create')
+                ->withErrors($message)
+                ->withInput($request->all());
+        } else {
+            try {
+                DB::beginTransaction();
+                $table = new Gallery();
+                $updateData = $table->updateData($id, $data);
+                $message = empty($updateData) ? Constants::FAILED  : Constants::UPDATE_SUCCESS;
+                DB::commit();
+            } catch (\Exception $e) {
+                $message = $e;
+            }
+        }
+
+        $res['status']  = isset($updateData) ? false : true;
+        $res['message'] = $message;
+
+        return redirect()->route('gallery.index')->with($res);
     }
 
     /**
@@ -105,11 +152,13 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_gallery)
-    {
-        $item = Gallery::findOrFail($id_gallery);
+    public function destroy($id) {
+        $table = new Gallery();
+        $data = $table->deleteData($id);
 
-        $item->delete();
-        return redirect()->route('gallery.index');
+        $res['status'] = empty($data) ? false : true;
+        $res['message'] = empty($data) ? Constants::FAILED : Constants::DELETE_SUCCESS;
+
+        return redirect()->route('gallery.index')->with($res);
     }
 }
