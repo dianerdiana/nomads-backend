@@ -14,3 +14,19 @@
 <!-- Page level custom scripts -->
 <script src="{{ url("backend/js/demo/chart-area-demo.js") }}"></script>
 <script src="{{ url("backend/js/demo/chart-pie-demo.js") }}"></script>  --}}
+
+<script>
+  var current = location.pathname;
+  $('.nav-item').each(function() {
+    var $this = $(this);
+    var href = $this.find("a").attr("href").split(/[/]/).filter(function(arr, i) {
+      if (i > 2) {
+        return arr;
+      }
+    }).join('/');
+
+    if ('/' + href == current) {
+      $this.addClass("active");
+    }
+  });
+</script>
