@@ -6,159 +6,138 @@ use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use App\Models\TravelPackage;
 use Constants;
+use Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class GalleryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index() {
-        $table = new Gallery();
-        $items = $table->getAllData('travel_package');
+	// INDEX Function
+	public function index()
+	{
+		$items = Gallery::all();
 
-        return view('pages.admin.gallery.index', ['items' => $items]);
-    }
+		return view('pages.admin.gallery.index', compact('items'));
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        $table = new TravelPackage();
-        $travel_packages = $table->getAllData();
+	// CREATE Function
+	public function create()
+	{
+		$travel_packages = TravelPackage::all();
 
-        return view('pages.admin.gallery.create', ['travel_packages' => $travel_packages]);
-    }
+		return view('pages.admin.gallery.create', compact('travel_packages'));
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request) {
-        $rules = [
-            'travel_package_id' => 'required|integer|exists:travel_packages,id_travel_package',
-            'image' => 'required|image',
-        ];
+	// STORE Function
+	public function store(Request $request)
+	{
+		$rules = [
+			'travel_package_id' => 'required|integer|exists:travel_packages,id_travel_package',
+			'image' => 'required|image',
+		];
 
-        
-        $data = $request->all();
-        $data['image'] = $request->file('image')->store('assets/gallery', 'public');
+		$data = $request->all();
 
-        $validator = Validator::make($request->all(), $rules);
+		$validator = Validator::make($request->all(), $rules);
 
-        if ($validator->fails()) {
-            $message = $validator->messages()->all();
-            return redirect()
-                ->route('gallery.create')
-                ->withErrors($message)
-                ->withInput($request->all());
-        } else {
-            try {
-                DB::beginTransaction();
-                $table = new Gallery();
-                $insertData = $table->insertData($data);
-                $message = empty($insertData) ? Constants::FAILED  : Constants::ADD_SUCCESS;
-                DB::commit();
-            } catch (\Exception $e) {
-                $message = $e;
-            }
-        }
+		if ($validator->fails()) {
+			$message = $validator->messages()->all();
+			return back()
+				->withErrors($message)
+				->withInput($request->all());
+		}
 
-        $res['status']  = isset($insertData) ? false : true;
-        $res['message'] = $message;
+		try {
+			DB::beginTransaction();
+			$data['image'] = $request->file('image')->store('assets/gallery', 'public');
+			$gallery = new Gallery();
+			$gallery->create($data);
 
-        return redirect()->route('gallery.index')->with($res);
-    }
+			DB::commit();
+			$status 	= 'success';
+			$message 	= Helpers::response('create', 'Gallery');
+			return redirect()->route('gallery.index')->with(compact('status', 'message'));
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+			return back()->withErrors($message);
+		}
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id_gallery) {
-        //
-    }
+	// SHOW Function
+	public function show($id_gallery)
+	{
+		//
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id) {
-        $table = new Gallery();
-        $tp_table = new TravelPackage();
-        $item = $table->getData($id);
-        $travel_packages = $tp_table->getAllData();
+	// EDIT Function
+	public function edit($id)
+	{
+		try {
+			$item 						= Gallery::findOrFail($id);
+			$travel_packages 	= TravelPackage::all();
 
-        return view('pages.admin.gallery.edit', ['item' => $item, 'travel_packages' => $travel_packages ]);
-    }
+			return view('pages.admin.gallery.edit', compact('item', 'travel_packages'));
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+			return back()->with(compact('message'));
+		}
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id) {
-        $rules = [
-            'travel_package_id' => 'required|integer|exists:travel_packages,id_travel_package',
-            'image' => 'required|image',
-        ];
+	// UPDATE Function
+	public function update(Request $request, $id)
+	{
+		$rules = [
+			'travel_package_id' => 'integer|exists:travel_packages,id_travel_package',
+			'image' => 'image',
+		];
 
-        
-        $data = $request->all();
-        $data['image'] = $request->file('image')->store('assets/gallery', 'public');
+		$data = $request->all();
 
-        $validator = Validator::make($request->all(), $rules);
+		$validator = Validator::make($request->all(), $rules);
 
-        if ($validator->fails()) {
-            $message = $validator->messages()->all();
-            return redirect()
-                ->route('gallery.create')
-                ->withErrors($message)
-                ->withInput($request->all());
-        } else {
-            try {
-                DB::beginTransaction();
-                $table = new Gallery();
-                $updateData = $table->updateData($id, $data);
-                $message = empty($updateData) ? Constants::FAILED  : Constants::UPDATE_SUCCESS;
-                DB::commit();
-            } catch (\Exception $e) {
-                $message = $e;
-            }
-        }
+		if ($validator->fails()) {
+			$message = $validator->messages()->all();
+			return redirect()
+				->back()
+				->withErrors($message)
+				->withInput($request->all());
+		}
 
-        $res['status']  = isset($updateData) ? false : true;
-        $res['message'] = $message;
+		try {
+			DB::beginTransaction();
+			$gallery = Gallery::findOrFail($id);
+			if (!empty($request->file('image'))) {
+				$data['image'] = $request->file('image')->store('assets/gallery', 'public');
+			}
+			$gallery->update($data);
+			DB::commit();
+			$status 	= 'success';
+			$message 	= Helpers::response('update', 'Gallery');
+			return redirect()->route('gallery.index')->with(compact('status', 'message'));
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+			return back()->withErrors($message);
+		}
+	}
 
-        return redirect()->route('gallery.index')->with($res);
-    }
+	// DESTROY Function
+	public function destroy($id)
+	{
+		try {
+			DB::beginTransaction();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) {
-        $table = new Gallery();
-        $data = $table->deleteData($id);
+			$gallery = Gallery::findOrFail($id);
+			$gallery->delete();
 
-        $res['status'] = empty($data) ? false : true;
-        $res['message'] = empty($data) ? Constants::FAILED : Constants::DELETE_SUCCESS;
+			DB::commit();
 
-        return redirect()->route('gallery.index')->with($res);
-    }
+			$status 	= 'success';
+			$message 	= Helpers::response('delete', 'Gallery');
+			return back()->with(compact('status', 'message'));
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+			return back()->withErrors($message);
+		}
+	}
 }

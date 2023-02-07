@@ -28,10 +28,11 @@
             <label for="{{ $item->travel_package_id }}" class="form-label">
               Jangan Diubah
             </label>
-            <select name="travel_package_id" required class="form-control">
-              <option value="{{ $item->id_travel_package }}">Jangan Diubah</option>
+            <select name="travel_package_id" class="form-control">
+              <option value="{{ $item->travel_package_id }}">Jangan Diubah</option>
               @foreach ($travel_packages as $travel_package)
-                <option value="{{ $travel_package->id_travel_package }}">
+                <option value="{{ $travel_package->id_travel_package }}"
+                  {{ old('travel_package_id', $item->travel_package_id) == $travel_package->id_travel_package ? 'selected' : '' }}>
                   {{ $travel_package->title }}
                 </option>
               @endforeach

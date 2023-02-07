@@ -12,8 +12,8 @@
       </a>
     </div>
 
-    @if (session()->has('status'))
-      <div class="col-12 alert alert-success" role="alert">
+    @if (session()->has('message'))
+      <div class="col-12 alert @if (session('status') == 'success') alert-success @else alert-danger @endif" role="alert">
         {{ session('message') }}
       </div>
     @endif
