@@ -10,36 +10,21 @@ use Illuminate\Support\Str;
 
 class TravelPackageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // INDEX Function
     public function index()
     {
         $items = TravelPackage::all();
 
-        return view('pages.admin.travel-package.index', [
-            'items' => $items
-        ]);
+        return view('pages.admin.travel-package.index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // CREATE Function
     public function create()
     {
         return view('pages.admin.travel-package.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // STORE Function
     public function store(TravelPackageRequest $request)
     {
         $data = $request->all();
@@ -50,37 +35,21 @@ class TravelPackageController extends Controller
         return redirect()->route('travel-package.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // SHOW Function
     public function show($id_travel_package)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // EDIT Function
     public function edit($id_travel_package)
     {
         $item = TravelPackage::findOrFail($id_travel_package);
 
-        return view('pages.admin.travel-package.update', ['item'=>$item]);
+        return view('pages.admin.travel-package.update', ['item' => $item]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // UPDATE Function
     public function update(TravelPackageRequest $request, $id_travel_package)
     {
         $data = $request->all();
@@ -93,12 +62,7 @@ class TravelPackageController extends Controller
         return redirect()->route('travel-package.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // DESTROY Function
     public function destroy($id_travel_package)
     {
         $item = TravelPackage::findOrFail($id_travel_package);
