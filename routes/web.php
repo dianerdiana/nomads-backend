@@ -21,22 +21,22 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::group(['prefix' => '/'], function() {
+Route::group(['prefix' => '/'], function () {
   Route::get('/', [HomeController::class, 'index'])->name('home');
-  Route::get('detail', [DetailController::class, 'index'])->name('detail');
-  
-  Route::controller(CheckoutController::class)->group(function() {
-      Route::get('checkout', 'index')->name('checkout');
-      Route::get('checkout/success', 'success')->name('checkout-success');
-    });
+  Route::get('detail/{slug}', [DetailController::class, 'index'])->name('detail');
+
+  Route::controller(CheckoutController::class)->group(function () {
+    Route::get('checkout', 'index')->name('checkout');
+    Route::get('checkout/success', 'success')->name('checkout-success');
+  });
 });
 
 
 Route::group([
   'prefix' => 'admin',
   'middleware' => ['auth', 'admin'],
-  ], function() {
-    
+], function () {
+
   Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
   Route::resource('travel-package', TravelPackageController::class);
   Route::resource('gallery', GalleryController::class);
