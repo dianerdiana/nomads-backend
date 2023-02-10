@@ -24,14 +24,24 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers'], function 
     Route::get('/detail/{slug}', 'index')->name('detail');
   });
 
-  Route::controller(CheckoutController::class)->group(function () {
-    Route::get('checkout', 'index')->name('checkout');
-    Route::get('checkout/success', 'success')->name('checkout-success');
-  });
+  Route::controller(CheckoutController::class)
+    ->middleware(['auth', 'verified'])
+    ->prefix('checkout')
+    ->group(function () {
+      Route::get('/{id}', 'index')->name('checkout');
+      Route::post('/{id}', 'process')->name('checkout-process');
+      Route::post('/create/{detail_id}', 'create')->name('checkout-create');
+      Route::get('/remove/{detail_id}', 'remove')->name('checkout-remove');
+      Route::get('/confirm/{id}', 'success')->name('checkout-success');
+    });
 });
 
 
-Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers', 'middleware' => ['auth', 'admin'],], function () {
+Route::group([
+  'prefix' => 'admin',
+  'namespace' => 'App\Http\Controllers',
+  'middleware' => ['auth', 'admin']
+], function () {
 
   Route::controller(DashboardController::class)->group(function () {
     Route::get('/', 'index')->name('dashboard');
