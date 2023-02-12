@@ -25,7 +25,7 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers'], function 
   });
 
   Route::controller(CheckoutController::class)
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->prefix('checkout')
     ->group(function () {
       Route::get('/{id}', 'index')->name('checkout');

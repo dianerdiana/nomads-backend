@@ -109,9 +109,9 @@
                 </tr>
               </table>
             </div>
-            <div class="join-container d-grid gap-2">
+            <div class="join-container">
               @auth
-                <form action="" method="post">
+                <form class="d-grid gap-2" action="" method="post">
                   @csrf
                   <button type="submit" class="btn btn-block btn-join-now mt-3 py-2">
                     Join Now
