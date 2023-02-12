@@ -13,10 +13,9 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $id)
     {
-        // $item = Transaction::with(['details', 'travel_package', 'user'])->findOrFail($id);
-        $item = 'Check';
+        $item = Transaction::with(['details', 'travel_package', 'user'])->findOrFail($id);
         return view('pages.checkout', compact('item'));
     }
 
@@ -39,13 +38,13 @@ class CheckoutController extends Controller
             'doe_passport'      => Carbon::now()->addYears(5),
         ]);
 
-        return redirect()->route('checkout' . $transaction->id);
+        return redirect()->route('checkout', $transaction->id);
     }
 
     public function create(Request $request, $detail_id)
     {
         $request->validate([
-            'username'      => 'required|string|exists:users.username',
+            'username'      => 'required|string|exists:users,username',
             'is_visa'       => 'required|boolean',
             'doe_passport'  => 'required'
         ]);
@@ -62,7 +61,7 @@ class CheckoutController extends Controller
             $transaction->additional_visa    += 100;
         }
 
-        $transaction->transation_total += $transaction->travel_package->price;
+        $transaction->transaction_total += $transaction->travel_package->price;
         $transaction->save();
 
         return redirect()->route('checkout', $detail_id);
@@ -80,11 +79,11 @@ class CheckoutController extends Controller
             $transaction->additional_visa    -= 100;
         }
 
-        $transaction->transation_total -= $transaction->travel_package->price;
+        $transaction->transaction_total -= $transaction->travel_package->price;
         $transaction->save();
         $item->delete();
 
-        return redirect()->route('checkout', $item->tranasaction_id);
+        return redirect()->route('checkout', $item->transaction_id);
     }
 
 

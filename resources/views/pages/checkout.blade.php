@@ -59,7 +59,7 @@
                         <td class="align-middle">{{ $detail->nationality }}</td>
                         <td class="align-middle">{{ $detail->is_visa ? '30 Days' : 'N/A' }}</td>
                         <td class="align-middle">
-                          {{ \Carbon\Carbon::createFromDate($detail->doe_passport) > \Carvon\Carbon::now() ? 'Active' : 'Inactive' }}
+                          {{ \Carbon\Carbon::createFromDate($detail->doe_passport) > \Carbon\Carbon::now() ? 'Active' : 'Inactive' }}
                         </td>
                         <td class="align-middle">
                           <a href="{{ route('checkout-remove', $detail->id) }}">
@@ -79,35 +79,44 @@
               </div>
               <div class="member mt-3">
                 <h2>Add Member</h2>
-                <form action="" class="row">
-                  <div class="col-lg-3 col-sm-12">
-                    <label for="inputUsername" class="visually-hidden">
+                <form action="{{ route('checkout-create', $item->id) }}" method="POST" class="row">
+                  @csrf
+                  <div class="col-lg-3 col-sm-12 pe-0">
+                    <label for="username" class="visually-hidden">
                       Name
                     </label>
-                    <input type="text" name="inputUsername" placeholder="Username" id="inputUsername"
+                    <input type="text" name="username" placeholder="Username" id="username"
                       class="form-control mb-2 mr-sm-2" />
                   </div>
 
-                  <div class="col-lg-2 col-sm-12">
-                    <label for="inputVisa" class="visually-hidden">Visa</label>
-                    <select name="inputVisa" id="inputVisa" class="form-select mb-2 mr-sm-2">
-                      <option value="VISA" selected>Visa</option>
-                      <option value="30 Days">30 Days</option>
-                      <option value="N/A">N/A</option>
+                  <div class="col-lg-1 col-sm-12 pe-0">
+                    <label for="nationality" class="visually-hidden">
+                      Nationality
+                    </label>
+                    <input type="text" name="nationality" placeholder="ID" id="nationality"
+                      class="form-control mb-2 mr-sm-2" />
+                  </div>
+
+                  <div class="col-lg-2 col-sm-12 pe-0">
+                    <label for="is_visa" class="visually-hidden">Visa</label>
+                    <select name="is_visa" id="is_visa" class="form-select mb-2 mr-sm-2" required>
+                      <option value="" selected>Visa</option>
+                      <option value="1">30 Days</option>
+                      <option value="0">N/A</option>
                     </select>
                   </div>
 
-                  <div class="col-lg-4 col-sm-12">
-                    <label for="doePassport" class="visually-hidden">
+                  <div class="col-lg-3 col-sm-12 pe-0">
+                    <label for="doe_passport" class="visually-hidden">
                       DOE Passport
                     </label>
                     <div class="input-group mb-2 mr-sm-2">
-                      <input type="text" id="doePassport" name="doePassport" placeholder="DOE Passport"
+                      <input type="text" id="doe_passport" name="doe_passport" placeholder="DOE Passport"
                         class="form-control datepicker" />
                     </div>
                   </div>
 
-                  <div class="col-lg-3 col-sm-12">
+                  <div class="col-lg-3 col-sm-12 pe-0">
                     <button class="btn btn-add-now mb-2 px-4">Add Now</button>
                   </div>
                 </form>
@@ -126,25 +135,27 @@
               <table class="checkout-informations">
                 <tr>
                   <th width="50%" class="thead">Members</th>
-                  <td width="50%" class="text-end tcell">2 person</td>
+                  <td width="50%" class="text-end tcell">{{ $item->details->count() }} person</td>
                 </tr>
                 <tr>
                   <th width="50%" class="thead">Additional Visa</th>
-                  <td width="50%" class="text-end tcell">$ 190,00</td>
+                  <td width="50%" class="text-end tcell">$
+                    {{ $item->additional_visa }},00
+                  </td>
                 </tr>
                 <tr>
                   <th width="50%" class="thead">Trip Price</th>
-                  <td width="50%" class="text-end tcell">$ 80,00 / person</td>
+                  <td width="50%" class="text-end tcell">$ {{ $item->travel_package->price }},00 / person</td>
                 </tr>
                 <tr>
                   <th width="50%" class="thead">Sub Total</th>
-                  <td width="50%" class="text-end tcell">$ 280,00</td>
+                  <td width="50%" class="text-end tcell">$ {{ $item->transaction_total }},00</td>
                 </tr>
                 <tr>
                   <th width="50%" class="thead">Total (+Unique)</th>
                   <td width="50%" class="text-end tcell text-total">
-                    <span class="text-blue">$279,</span>
-                    <span class="text-orange">33</span>
+                    <span class="text-blue">${{ $item->transaction_total }},</span>
+                    <span class="text-orange">{{ mt_rand(0, 99) }}</span>
                   </td>
                 </tr>
               </table>
@@ -182,12 +193,12 @@
               </div>
             </div>
             <div class="join-container d-grid gap-2">
-              <a href="{{ route('checkout-success', ':id') }}" class="btn btn-block btn-join-now mt-3 py-2">
+              <a href="{{ route('checkout-success', $item->id) }}" class="btn btn-block btn-join-now mt-3 py-2">
                 I Have Made Payment
               </a>
             </div>
             <div class="btn-cancel text-center mt-3">
-              <a href="{{ route('detail', ':slug') }}" class="text-muted">Cancel Booking</a>
+              <a href="{{ route('detail', $item->travel_package->slug) }}" class="text-muted">Cancel Booking</a>
             </div>
           </div>
         </div>
@@ -204,6 +215,7 @@
   <script src="{{ url('frontend/libraries/gijgo/js/gijgo.min.js') }}"></script>
   <script>
     $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
       uiLibrary: 'bootstrap4',
       icons: {
         rightIcon: `<img src="{{ url('frontend/assets/icons/ic_doe.png') }}" />`,
