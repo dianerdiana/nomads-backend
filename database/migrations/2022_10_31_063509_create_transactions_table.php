@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->bigIncrements('id_transaction');
+            $table->id();
             $table->integer('travel_package_id');
             $table->integer('user_id')->nullable();
             $table->integer('additional_visa');

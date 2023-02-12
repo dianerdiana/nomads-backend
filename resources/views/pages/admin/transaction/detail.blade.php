@@ -25,7 +25,7 @@
           <table class="table table-bordered">
             <tr>
               <th>ID</th>
-              <td>{{ $item->id_transaction }}</td>
+              <td>{{ $item->id }}</td>
             </tr>
             <tr>
               <th>Travel</th>
@@ -61,7 +61,7 @@
                   <tbody>
                     @foreach ($item->details as $detail)
                       <tr>
-                        <td>{{ $detail->id_transaction_detail }}</td>
+                        <td>{{ $detail->id }}</td>
                         <td>{{ $detail->username }}</td>
                         <td>{{ $detail->nationality }}</td>
                         <td>{{ $detail->is_visa ? '30 Days' : 'N/A' }}</td>

@@ -12,7 +12,6 @@ class TravelPackage extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $primaryKey = 'id_travel_package';
     protected $fillable = [
         'title',
         'slug',
@@ -27,26 +26,28 @@ class TravelPackage extends Model
         'price'
     ];
 
-    protected $hidden = [
+    protected $hidden = [];
 
-    ];
-
-    public function galleries() {
-        return $this->hasMany(Gallery::class, 'travel_package_id', 'id_travel_package');
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class, 'travel_package_id', 'id');
     }
 
-    public function getAllData() {
+    public function getAllData()
+    {
         $data = TravelPackage::all();
         return $data;
     }
 
-    public function insertData($data=[]) {
+    public function insertData($data = [])
+    {
         TravelPackage::insert($data);
         $data = TravelPackage::getPdo()->lastInsertId();
         return $data;
     }
 
-    public function getData($id=1) {
+    public function getData($id = 1)
+    {
         $data = TravelPackage::where($this->primaryKey, $id)->first();
         return $data;
     }

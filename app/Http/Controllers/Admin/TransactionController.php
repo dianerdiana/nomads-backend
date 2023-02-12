@@ -58,13 +58,13 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id_travel_package)
+    public function show($id)
     {
         $item = Transaction::with([
             'details', 'travel_package', 'user'
-        ])->findOrFail($id_travel_package);
+        ])->findOrFail($id);
 
-        return view('pages.admin.transaction.detail', ['item'=>$item]);
+        return view('pages.admin.transaction.detail', ['item' => $item]);
     }
 
     /**
@@ -73,11 +73,11 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_travel_package)
+    public function edit($id)
     {
-        $item = Transaction::findOrFail($id_travel_package);
+        $item = Transaction::findOrFail($id);
 
-        return view('pages.admin.transaction.update', ['item'=>$item]);
+        return view('pages.admin.transaction.update', ['item' => $item]);
     }
 
     /**
@@ -87,13 +87,13 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TransactionRequest $request, $id_travel_package)
+    public function update(TransactionRequest $request, $id)
     {
         $data = $request->all();
 
         $data['slug'] = Str::slug($request->title);
 
-        $item = Transaction::findOrFail($id_travel_package);
+        $item = Transaction::findOrFail($id);
 
         $item->update($data);
         return redirect()->route('transaction.index');
@@ -105,9 +105,9 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_travel_package)
+    public function destroy($id)
     {
-        $item = Transaction::findOrFail($id_travel_package);
+        $item = Transaction::findOrFail($id);
 
         $item->delete();
         return redirect()->route('transaction.index');

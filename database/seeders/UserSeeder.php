@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'id_user'   => '1',
+                'id'        => '1',
                 'name'      => 'Admin',
                 'username'  => 'admin',
                 'email'     => 'admin@mail.com',
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
                 'roles'     => 'ADMIN',
             ],
             [
-                'id_user'   => '2',
+                'id'        => '2',
                 'name'      => 'User',
                 'username'  => 'user',
                 'email'     => 'user@mail.com',
@@ -33,6 +33,6 @@ class UserSeeder extends Seeder
             ]
         ]);
 
-        DB::statement("SELECT setval('users_id_user_seq', 2)");
+        DB::statement("SELECT setval('users_id_seq', 2)");
     }
 }

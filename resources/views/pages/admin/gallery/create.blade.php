@@ -30,8 +30,8 @@
             <select name="travel_package_id" required class="form-control" value="{{ old('travel_package_id') }}">
               <option value="">Pilih Paket Travel</option>
               @foreach ($travel_packages as $travel_package)
-                <option value="{{ $travel_package->id_travel_package }}"
-                  {{ old('travel_package_id') == $travel_package->id_travel_package ? 'selected' : '' }}>
+                <option value="{{ $travel_package->id }}"
+                  {{ old('travel_package_id') == $travel_package->id ? 'selected' : '' }}>
                   {{ $travel_package->title }}
                 </option>
               @endforeach

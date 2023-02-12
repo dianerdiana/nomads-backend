@@ -33,18 +33,18 @@
             <tbody>
               @forelse ($items as $item)
                 <tr>
-                  <td>{{ $item->id_gallery }}</td>
+                  <td>{{ $item->id }}</td>
                   <td>{{ $item->travel_package->title }}</td>
                   <td>
                     <img src="{{ Storage::url($item->image) }}" alt="" style="width: 150px"
                       class="img-thumbnail" />
                   </td>
                   <td>
-                    <a href="{{ route('gallery.edit', $item->id_gallery) }}" class="btn btn-sm btn-info">
+                    <a href="{{ route('gallery.edit', $item->id) }}" class="btn btn-sm btn-info">
                       <i class="fa fa-pencil-alt"></i>
                     </a>
 
-                    <form action="{{ route('gallery.destroy', $item->id_gallery) }}" method="POST" class="d-inline">
+                    <form action="{{ route('gallery.destroy', $item->id) }}" method="POST" class="d-inline">
                       @csrf
                       @method('delete')
                       <button class="btn btn-sm btn-danger">

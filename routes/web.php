@@ -39,7 +39,7 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers'], function 
 
 Route::group([
   'prefix' => 'admin',
-  'namespace' => 'App\Http\Controllers',
+  'namespace' => 'App\Http\Controllers\Admin',
   'middleware' => ['auth', 'admin']
 ], function () {
 

@@ -14,24 +14,24 @@ class Transaction extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $primaryKey = 'id_transaction';
     protected $fillable = [
         'user_id', 'travel_package_id', 'additional_visa', 'transaction_total', 'transaction_status'
     ];
 
-    protected $hidden = [
+    protected $hidden = [];
 
-    ];
-
-    public function details() {
-        return $this->hasMany(TransactionDetail::class, 'transaction_id', 'id_transaction');
+    public function details()
+    {
+        return $this->hasMany(TransactionDetail::class, 'transaction_id', 'id');
     }
 
-    public function travel_package() {
-        return $this->belongsTo(TravelPackage::class, 'travel_package_id', 'id_travel_package');
+    public function travel_package()
+    {
+        return $this->belongsTo(TravelPackage::class, 'travel_package_id', 'id');
     }
 
-    public function user() {
-        return $this->belongsTo(User::class, 'user_id', 'id_user');
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -16,7 +16,7 @@ class TravelPackageSeeder extends Seeder
     {
         DB::table('travel_packages')->insert([
             [
-                'id_travel_package' => '1',
+                'id' => '1',
                 'title'             => 'Deratan',
                 'location'          => 'Deratan, Bali',
                 'country'           => 'Indonesia',
@@ -33,7 +33,7 @@ class TravelPackageSeeder extends Seeder
 Bali and a district of Klungkung Regency that includes the neighbouring small island of Nusa Lembongan. The Badung Strait separates the island and Bali."
             ],
             [
-                'id_travel_package' => '2',
+                'id' => '2',
                 'title'             => 'Bromo',
                 'location'          => 'Bromo, Malang',
                 'country'           => 'Indonesia',
@@ -50,7 +50,7 @@ Bali and a district of Klungkung Regency that includes the neighbouring small is
 Bali and a district of Klungkung Regency that includes the neighbouring small island of Nusa Lembongan. The Badung Strait separates the island and Bali."
             ],
             [
-                'id_travel_package' => '3',
+                'id' => '3',
                 'title'             => 'Nusa Penida',
                 'location'          => 'Nusa Penida',
                 'country'           => 'Indonesia',
@@ -67,7 +67,7 @@ Bali and a district of Klungkung Regency that includes the neighbouring small is
 Bali and a district of Klungkung Regency that includes the neighbouring small island of Nusa Lembongan. The Badung Strait separates the island and Bali."
             ],
             [
-                'id_travel_package' => '4',
+                'id' => '4',
                 'title'             => 'Tower Dubai',
                 'location'          => 'Dubai',
                 'country'           => 'Middle East',
@@ -85,6 +85,6 @@ Bali and a district of Klungkung Regency that includes the neighbouring small is
             ],
         ]);
 
-        DB::statement("SELECT setval('travel_packages_id_travel_package_seq', 5)");
+        DB::statement("SELECT setval('travel_packages_id_seq', 5)");
     }
 }

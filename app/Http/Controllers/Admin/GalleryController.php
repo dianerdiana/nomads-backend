@@ -32,7 +32,7 @@ class GalleryController extends Controller
 	public function store(Request $request)
 	{
 		$rules = [
-			'travel_package_id' => 'required|integer|exists:travel_packages,id_travel_package',
+			'travel_package_id' => 'required|integer|exists:travel_packages,id',
 			'image' => 'required|image',
 		];
 
@@ -64,7 +64,7 @@ class GalleryController extends Controller
 	}
 
 	// SHOW Function
-	public function show($id_gallery)
+	public function show($id)
 	{
 		//
 	}
@@ -87,7 +87,7 @@ class GalleryController extends Controller
 	public function update(Request $request, $id)
 	{
 		$rules = [
-			'travel_package_id' => 'integer|exists:travel_packages,id_travel_package',
+			'travel_package_id' => 'integer|exists:travel_packages,id',
 			'image' => 'image',
 		];
 

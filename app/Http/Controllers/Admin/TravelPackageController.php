@@ -36,36 +36,36 @@ class TravelPackageController extends Controller
     }
 
     // SHOW Function
-    public function show($id_travel_package)
+    public function show($id)
     {
         //
     }
 
     // EDIT Function
-    public function edit($id_travel_package)
+    public function edit($id)
     {
-        $item = TravelPackage::findOrFail($id_travel_package);
+        $item = TravelPackage::findOrFail($id);
 
         return view('pages.admin.travel-package.update', ['item' => $item]);
     }
 
     // UPDATE Function
-    public function update(TravelPackageRequest $request, $id_travel_package)
+    public function update(TravelPackageRequest $request, $id)
     {
         $data = $request->all();
 
         $data['slug'] = Str::slug($request->title);
 
-        $item = TravelPackage::findOrFail($id_travel_package);
+        $item = TravelPackage::findOrFail($id);
 
         $item->update($data);
         return redirect()->route('travel-package.index');
     }
 
     // DESTROY Function
-    public function destroy($id_travel_package)
+    public function destroy($id)
     {
-        $item = TravelPackage::findOrFail($id_travel_package);
+        $item = TravelPackage::findOrFail($id);
 
         $item->delete();
         return redirect()->route('travel-package.index');

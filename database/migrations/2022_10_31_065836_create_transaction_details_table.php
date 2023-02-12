@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('transaction_details', function (Blueprint $table) {
-            $table->bigIncrements('id_transaction_detail');
+            $table->id();
             $table->integer('transaction_id');
             $table->string('username');
             $table->string('nationality');

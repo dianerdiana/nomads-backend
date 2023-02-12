@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('galleries', function (Blueprint $table) {
-            $table->bigIncrements('id_gallery');
+            $table->id();
             $table->integer('travel_package_id');
             $table->text('image');
             $table->softDeletes();

@@ -12,16 +12,14 @@ class TransactionDetail extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $primaryKey = 'id_transaction';
     protected $fillable = [
         'transaction_id', 'username', 'nationality', 'is_visa', 'doe_passport'
     ];
 
-    protected $hidden = [
+    protected $hidden = [];
 
-    ];
-
-    public function travel_package() {
-        return $this->belongsTo(Transaction::class, 'transaction_id', 'id_transaction');
+    public function travel_package()
+    {
+        return $this->belongsTo(Transaction::class, 'transaction_id', 'id');
     }
 }

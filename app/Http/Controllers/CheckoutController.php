@@ -32,14 +32,14 @@ class CheckoutController extends Controller
         ]);
 
         TransactionDetail::create([
-            'transaction_id'    => $transaction->id_transaction,
+            'transaction_id'    => $transaction->id,
             'username'          => Auth::user()->username,
             'nationality'       => 'ID',
             'is_visa'           => 0,
             'doe_passport'      => Carbon::now()->addYears(5),
         ]);
 
-        return redirect()->route('checkout' . $transaction->id_transaction);
+        return redirect()->route('checkout' . $transaction->id);
     }
 
     public function create(Request $request, $detail_id)

@@ -27,22 +27,21 @@
             <tbody>
               @forelse ($items as $item)
                 <tr>
-                  <td>{{ $item->id_transaction }}</td>
+                  <td>{{ $item->id }}</td>
                   <td>{{ $item->travel_package->title }}</td>
                   <td>{{ $item->user->name }}</td>
                   <td>{{ $item->additional_visa }}</td>
                   <td>{{ $item->transaction_total }}</td>
                   <td>{{ $item->transaction_status }}</td>
                   <td>
-                    <a href="{{ route('transaction.show', $item->id_transaction) }}" class="btn btn-sm btn-primary">
+                    <a href="{{ route('transaction.show', $item->id) }}" class="btn btn-sm btn-primary">
                       <i class="fa fa-eye"></i>
                     </a>
-                    <a href="{{ route('transaction.edit', $item->id_transaction) }}" class="btn btn-sm btn-info">
+                    <a href="{{ route('transaction.edit', $item->id) }}" class="btn btn-sm btn-info">
                       <i class="fa fa-pencil-alt"></i>
                     </a>
 
-                    <form action="{{ route('transaction.destroy', $item->id_transaction) }}" method="POST"
-                      class="d-inline">
+                    <form action="{{ route('transaction.destroy', $item->id) }}" method="POST" class="d-inline">
                       @csrf
                       @method('delete')
                       <button class="btn btn-sm btn-danger">

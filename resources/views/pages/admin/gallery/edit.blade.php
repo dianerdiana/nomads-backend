@@ -21,7 +21,7 @@
 
     <div class="card shadow">
       <div class="card-body">
-        <form action="{{ route('gallery.update', $item->id_gallery) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('gallery.update', $item->id) }}" method="POST" enctype="multipart/form-data">
           @method('PUT')
           @csrf
           <div class="form-group">
@@ -31,8 +31,8 @@
             <select name="travel_package_id" class="form-control">
               <option value="{{ $item->travel_package_id }}">Jangan Diubah</option>
               @foreach ($travel_packages as $travel_package)
-                <option value="{{ $travel_package->id_travel_package }}"
-                  {{ old('travel_package_id', $item->travel_package_id) == $travel_package->id_travel_package ? 'selected' : '' }}>
+                <option value="{{ $travel_package->id }}"
+                  {{ old('travel_package_id', $item->travel_package_id) == $travel_package->id ? 'selected' : '' }}>
                   {{ $travel_package->title }}
                 </option>
               @endforeach
